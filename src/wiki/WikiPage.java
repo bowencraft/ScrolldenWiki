@@ -92,5 +92,9 @@ public class WikiPage implements WikiComponent {
         this.dislikes = dislikes;
     }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     
 }

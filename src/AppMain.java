@@ -1,6 +1,5 @@
 import user.*;
 import wiki.*;
-import suggestion.*;
 import feedback.*;
 import storage.*;
 
@@ -48,5 +47,4 @@ public class AppMain {
         // Step 7: 保存数据
         storage.savePages(allPages);
     }
-
 }
