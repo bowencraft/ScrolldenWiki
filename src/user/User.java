@@ -1,7 +1,6 @@
 package user;
 
 import wiki.WikiPage;
-import wiki.Category;
 
 public abstract class User {
     protected String username;
@@ -12,7 +11,6 @@ public abstract class User {
 
     public abstract void browseWiki(WikiPage page);
 
-    public abstract void viewCategory(Category category);
 
     public String getUsername() {
         return username;

@@ -26,8 +26,6 @@ public class AppMain {
                 System.out.println("No pages found. Creating default data...");
 
                 WikiPage page1 = new WikiPage("Getting Started", "Welcome to Scrollden!");
-                Category guideCategory = new Category("Guides");
-                guideCategory.addComponent(page1);
                 allPages = new ArrayList<>();
                 allPages.add(page1);
             }
@@ -36,11 +34,6 @@ public class AppMain {
 
             Admin admin = new Admin("Admin");
             Player player = new Player("Player");
-
-            AnalyticsSystem analytics = new AnalyticsSystem();
-            for (WikiPage page : allPages) {
-                page.addObserver(analytics);
-            }
 
             String[] options = {"Admin", "Player"};
             int choice = JOptionPane.showOptionDialog(

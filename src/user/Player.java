@@ -1,7 +1,6 @@
 package user;
 
 import wiki.WikiPage;
-import wiki.Category;
 import review.Review;
 import suggestion.Suggestion;
 import suggestion.SuggestionManager;
@@ -18,10 +17,6 @@ public class Player extends User {
         page.view();
     }
 
-    @Override
-    public void viewCategory(Category category) {
-        category.display();
-    }
 
     public void likePage(WikiPage page) {
         page.like();
