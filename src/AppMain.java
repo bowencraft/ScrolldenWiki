@@ -1,6 +1,5 @@
 import user.*;
 import wiki.*;
-import feedback.*;
 import storage.*;
 
 import gui.AdminGUI;
