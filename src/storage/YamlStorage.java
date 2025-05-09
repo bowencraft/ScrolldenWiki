@@ -2,8 +2,10 @@ package storage;
 
 import wiki.WikiPage;
 import suggestion.Suggestion;
+import review.Review;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class YamlStorage implements DataStorage {
@@ -27,6 +29,12 @@ public class YamlStorage implements DataStorage {
                     writer.write("  views: " + page.getViewCount() + "\n");
                     writer.write("  likes: " + page.getLikeCount() + "\n");
                     writer.write("  dislikes: " + page.getDislikeCount() + "\n");
+                    writer.write("  reviews:\n");
+                    for (Review review : page.getReviews()) {
+                        writer.write("    - author: " + review.getAuthor() + "\n");
+                        writer.write("      content: " + review.getContent() + "\n");
+                        writer.write("      timestamp: " + review.getTimestamp() + "\n");
+                    }
                     writer.write("---\n");
                 }
             }
@@ -67,6 +75,17 @@ public class YamlStorage implements DataStorage {
                 } else if (line.startsWith("  dislikes: ")) {
                     if (page != null) {
                         page.setDislikes(Integer.parseInt(line.substring(12)));
+                    }
+                } else if (line.startsWith("  reviews:")) {
+                    if (page != null) {
+                        while ((line = reader.readLine()) != null && line.startsWith("    - author: ")) {
+                            String author = line.substring(14);
+                            String content = reader.readLine().substring(14);
+                            String timestamp = reader.readLine().substring(16).trim();
+                            Review review = new Review(author, content);
+                            review.setTimestamp(LocalDateTime.parse(timestamp));
+                            page.addReview(review);
+                        }
                     }
                 }
             }
