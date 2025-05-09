@@ -18,13 +18,11 @@ public class HomePageGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Title
         JLabel titleLabel = new JLabel("ScrolldenWiki", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Serif", Font.BOLD, 28));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Buttons
         JButton adminButton = new JButton("Enter as Admin");
         JButton playerButton = new JButton("Enter as Player");
 
@@ -33,7 +31,6 @@ public class HomePageGUI extends JFrame {
         buttonPanel.add(playerButton);
         add(buttonPanel, BorderLayout.CENTER);
 
-        // Button Actions
         adminButton.addActionListener(e -> {
             new AdminGUI(admin, allPages, storage);
             dispose(); // Close home screen

@@ -8,16 +8,15 @@ import java.awt.*;
 import java.util.List;
 
 public class WikiPageManagerGUI extends JFrame {
-    private DataStorage storage; // 添加存储字段
+    private DataStorage storage; 
 
     public WikiPageManagerGUI(List<WikiPage> allPages, DataStorage storage) {
-        this.storage = storage; // 初始化存储字段
+        this.storage = storage; 
         setTitle("Manage Wiki Pages");
         setSize(700, 500);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Model for page titles
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (WikiPage page : allPages) {
             listModel.addElement(page.getTitle());
@@ -27,24 +26,21 @@ public class WikiPageManagerGUI extends JFrame {
         JScrollPane listScroll = new JScrollPane(pageList);
         listScroll.setPreferredSize(new Dimension(200, 0));
 
-        // Content display
         JTextArea contentArea = new JTextArea();
         contentArea.setEditable(false);
         JScrollPane contentScroll = new JScrollPane(contentArea);
 
-        // Buttons
         JButton addBtn = new JButton("Create New Page");
         JButton editBtn = new JButton("Edit Selected");
         JButton deleteBtn = new JButton("Delete Selected");
-        JButton analyticsBtn = new JButton("View Analytics"); // 🔍 NEW BUTTON
+        JButton analyticsBtn = new JButton("View Analytics"); 
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addBtn);
         buttonPanel.add(editBtn);
         buttonPanel.add(deleteBtn);
-        buttonPanel.add(analyticsBtn); // Add to panel
+        buttonPanel.add(analyticsBtn);
 
-        // Add components to frame
         add(listScroll, BorderLayout.WEST);
         add(contentScroll, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
@@ -62,14 +58,12 @@ public class WikiPageManagerGUI extends JFrame {
             }
         });
 
-        // Create new page
         addBtn.addActionListener(e -> {
-            new PageEditorGUI(allPages, null, storage); // 添加 storage 参数
-            storage.savePages(allPages); // 保存数据
+            new PageEditorGUI(allPages, null, storage); 
+            storage.savePages(allPages);
             dispose();
         });
 
-        // Edit selected page
         editBtn.addActionListener(e -> {
             String selectedTitle = pageList.getSelectedValue();
             if (selectedTitle == null) return;
@@ -79,13 +73,12 @@ public class WikiPageManagerGUI extends JFrame {
                     .findFirst().orElse(null);
 
             if (selectedPage != null) {
-                new PageEditorGUI(allPages, selectedPage, storage); // 添加 storage 参数
-                storage.savePages(allPages); // 保存数据
+                new PageEditorGUI(allPages, selectedPage, storage); 
+                storage.savePages(allPages);
                 dispose();
             }
         });
 
-        // Delete selected page
         deleteBtn.addActionListener(e -> {
             String selectedTitle = pageList.getSelectedValue();
             if (selectedTitle == null) return;
@@ -105,12 +98,11 @@ public class WikiPageManagerGUI extends JFrame {
                     allPages.remove(pageToDelete);
                     listModel.removeElement(selectedTitle);
                     contentArea.setText("");
-                    storage.savePages(allPages); // 保存数据
+                    storage.savePages(allPages); 
                 }
             }
         });
 
-        // 🔍 View analytics of selected page
         analyticsBtn.addActionListener(e -> {
             String selectedTitle = pageList.getSelectedValue();
             if (selectedTitle == null) return;

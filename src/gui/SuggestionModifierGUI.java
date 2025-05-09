@@ -8,10 +8,10 @@ import storage.DataStorage;
 import javax.swing.*;
 
 public class SuggestionModifierGUI extends JFrame {
-    private DataStorage storage; // 添加存储字段
+    private DataStorage storage; 
 
     public SuggestionModifierGUI(Player player, DataStorage storage) {
-        this.storage = storage; // 初始化存储字段
+        this.storage = storage; 
         setTitle("Submit Suggestion");
         setSize(400, 200);
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -26,7 +26,7 @@ public class SuggestionModifierGUI extends JFrame {
             if (!content.isEmpty()) {
                 Suggestion s = new Suggestion(player.getUsername(), content, null);
                 SuggestionManager.getInstance().addSuggestion(s);
-                storage.saveSuggestions(SuggestionManager.getInstance().getAllSuggestions()); // 保存建议
+                storage.saveSuggestions(SuggestionManager.getInstance().getAllSuggestions()); 
                 JOptionPane.showMessageDialog(this, "Suggestion submitted.");
                 dispose();
             }

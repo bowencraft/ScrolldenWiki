@@ -19,13 +19,11 @@ public class AdminGUI extends JFrame {
         this.allPages = allPages;
         this.storage = storage;
 
-        // Frame setup
         setTitle("ScrolldenWiki - Admin Dashboard");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Control Buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         JButton manageWikiButton = new JButton("Manage Wiki Pages");
         JButton viewSuggestionsButton = new JButton("View Suggestions");
@@ -34,20 +32,18 @@ public class AdminGUI extends JFrame {
         buttonPanel.add(viewSuggestionsButton);
         add(buttonPanel, BorderLayout.NORTH);
 
-        // Manage Wiki Pages → open management GUI
         manageWikiButton.addActionListener(e -> {
-            new WikiPageManagerGUI(allPages, storage); // 添加 storage 参数
-            storage.savePages(allPages); // 保存数据
+            new WikiPageManagerGUI(allPages, storage); 
+            storage.savePages(allPages); 
         });
 
-        // View Suggestions → opens suggestion viewer
         viewSuggestionsButton.addActionListener(e -> {
             List<Suggestion> suggestions = admin.getSuggestions();
             new SuggestionViewerGUI(suggestions);
-            storage.savePages(allPages); // 保存数据
+            storage.savePages(allPages); 
         });
 
-        setLocationRelativeTo(null); // Center on screen
+        setLocationRelativeTo(null); 
         setVisible(true);
     }
 }

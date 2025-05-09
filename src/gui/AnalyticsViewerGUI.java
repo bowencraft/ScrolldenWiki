@@ -17,7 +17,6 @@ public class AnalyticsViewerGUI extends JFrame {
         displayArea.setEditable(false);
         displayArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
-        // Sort or display each page’s stats
         for (WikiPage p : pages) {
             displayArea.append(
                 String.format("Title: %-20s | Views: %4d | Likes: %3d | Dislikes: %3d%n",

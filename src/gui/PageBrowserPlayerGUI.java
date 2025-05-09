@@ -10,10 +10,10 @@ import java.awt.*;
 import java.util.List;
 
 public class PageBrowserPlayerGUI extends JFrame {
-    private DataStorage storage; // 添加存储字段
+    private DataStorage storage;
 
     public PageBrowserPlayerGUI(Player player, List<WikiPage> pages, DataStorage storage) {
-        this.storage = storage; // 初始化存储字段
+        this.storage = storage; 
         setTitle("Browse Wiki Pages");
         setSize(800, 600);
         setLayout(new BorderLayout());
@@ -65,7 +65,7 @@ public class PageBrowserPlayerGUI extends JFrame {
             if (page != null) {
                 page.like();
                 refreshDisplay(page, contentArea, reviewArea);
-                storage.savePages(pages); // 保存数据
+                storage.savePages(pages); 
             }
         });
 
@@ -74,7 +74,7 @@ public class PageBrowserPlayerGUI extends JFrame {
             if (page != null) {
                 page.dislike();
                 refreshDisplay(page, contentArea, reviewArea);
-                storage.savePages(pages); // 保存数据
+                storage.savePages(pages); 
             }
         });
 
@@ -85,7 +85,7 @@ public class PageBrowserPlayerGUI extends JFrame {
                 page.addReview(new Review(player.getUsername(), text));
                 commentArea.setText("");
                 refreshDisplay(page, contentArea, reviewArea);
-                storage.savePages(pages); // 保存数据
+                storage.savePages(pages); 
             }
         });
 
@@ -95,7 +95,7 @@ public class PageBrowserPlayerGUI extends JFrame {
                 boolean removed = page.getReviews().removeIf(r -> r.getAuthor().equals(player.getUsername()));
                 JOptionPane.showMessageDialog(this, removed ? "Comment deleted." : "No comment to delete.");
                 refreshDisplay(page, contentArea, reviewArea);
-                storage.savePages(pages); // 保存数据
+                storage.savePages(pages); 
             }
         });
 

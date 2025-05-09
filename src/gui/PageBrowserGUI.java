@@ -13,13 +13,11 @@ public class PageBrowserGUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // List model with page titles
         DefaultListModel<String> model = new DefaultListModel<>();
         for (WikiPage p : pages) {
             model.addElement(p.getTitle());
         }
 
-        // List and content area
         JList<String> list = new JList<>(model);
         JTextArea contentArea = new JTextArea();
         contentArea.setEditable(false);
@@ -27,7 +25,6 @@ public class PageBrowserGUI extends JFrame {
         contentArea.setWrapStyleWord(true);
         JScrollPane contentScroll = new JScrollPane(contentArea);
 
-        // When a page is selected from the list
         list.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 String selected = list.getSelectedValue();
@@ -36,7 +33,7 @@ public class PageBrowserGUI extends JFrame {
                         .findFirst().orElse(null);
                 if (selectedPage != null) {
                     contentArea.setText(selectedPage.getContent());
-                    selectedPage.view(); // Increment view count
+                    selectedPage.view();
                 }
             }
         });

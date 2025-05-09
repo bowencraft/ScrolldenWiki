@@ -8,16 +8,15 @@ import java.awt.*;
 import java.util.List;
 
 public class PageEditorGUI extends JFrame {
-    private DataStorage storage; // 添加存储字段
+    private DataStorage storage; 
 
     public PageEditorGUI(List<WikiPage> allPages, WikiPage pageToEdit, DataStorage storage) {
-        this.storage = storage; // 初始化存储字段
+        this.storage = storage;
         setTitle(pageToEdit == null ? "Create New Wiki Page" : "Edit Wiki Page");
         setSize(600, 400);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Input fields
         JTextField titleField = new JTextField(pageToEdit != null ? pageToEdit.getTitle() : "", 25);
         JTextArea contentArea = new JTextArea(pageToEdit != null ? pageToEdit.getContent() : "", 10, 40);
         contentArea.setLineWrap(true);
@@ -27,7 +26,6 @@ public class PageEditorGUI extends JFrame {
         JButton saveButton = new JButton("Save Page");
         JButton cancelButton = new JButton("Cancel");
 
-        // Layout for fields and buttons
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
         inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -45,7 +43,6 @@ public class PageEditorGUI extends JFrame {
         add(inputPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // Button actions
         saveButton.addActionListener(e -> {
             String title = titleField.getText().trim();
             String content = contentArea.getText().trim();
@@ -65,13 +62,13 @@ public class PageEditorGUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "New page created successfully.");
             }
 
-            storage.savePages(allPages); // 保存数据
-            dispose(); // Close the editor
+            storage.savePages(allPages); 
+            dispose();
         });
 
         cancelButton.addActionListener(e -> dispose());
 
-        setLocationRelativeTo(null); // Center the window
+        setLocationRelativeTo(null); 
         setVisible(true);
     }
 }
