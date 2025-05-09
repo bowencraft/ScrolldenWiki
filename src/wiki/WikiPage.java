@@ -2,7 +2,6 @@ package wiki;
 
 import java.util.*;
 
-import feedback.FeedbackObserver;
 import review.Review;
 
 public class WikiPage implements WikiComponent {
@@ -13,17 +12,6 @@ public class WikiPage implements WikiComponent {
     private int views = 0;
     private List<Review> reviews = new ArrayList<>();
 
-    private List<FeedbackObserver> observers = new ArrayList<>();
-
-    public void addObserver(FeedbackObserver obs) {
-        observers.add(obs);
-    }
-
-    private void notifyObservers() {
-        for (FeedbackObserver obs : observers) {
-            obs.onFeedbackReceived(this);
-        }
-    }
 
     public WikiPage(String title, String content) {
         this.title = title;
@@ -41,22 +29,18 @@ public class WikiPage implements WikiComponent {
 
     public void like() {
         likes++;
-        notifyObservers();
     }
 
     public void view() {
         views++;
-        notifyObservers();
     }
 
     public void dislike() {
         dislikes++;
-        notifyObservers();
     }
 
     public void addReview(Review r) {
         reviews.add(r);
-        notifyObservers();
     }
 
     // ✅ Expose the list of reviews
