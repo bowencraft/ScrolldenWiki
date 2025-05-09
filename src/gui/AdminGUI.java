@@ -36,13 +36,15 @@ public class AdminGUI extends JFrame {
 
         // Manage Wiki Pages → open management GUI
         manageWikiButton.addActionListener(e -> {
-            new WikiPageManagerGUI(allPages);  // opens a full list with edit/delete support
+            new WikiPageManagerGUI(allPages, storage); // 添加 storage 参数
+            storage.savePages(allPages); // 保存数据
         });
 
         // View Suggestions → opens suggestion viewer
         viewSuggestionsButton.addActionListener(e -> {
             List<Suggestion> suggestions = admin.getSuggestions();
             new SuggestionViewerGUI(suggestions);
+            storage.savePages(allPages); // 保存数据
         });
 
         setLocationRelativeTo(null); // Center on screen

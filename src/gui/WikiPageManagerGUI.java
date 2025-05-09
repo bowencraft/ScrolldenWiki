@@ -1,13 +1,17 @@
 package gui;
 
 import wiki.WikiPage;
+import storage.DataStorage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
 public class WikiPageManagerGUI extends JFrame {
-    public WikiPageManagerGUI(List<WikiPage> allPages) {
+    private DataStorage storage; // 添加存储字段
+
+    public WikiPageManagerGUI(List<WikiPage> allPages, DataStorage storage) {
+        this.storage = storage; // 初始化存储字段
         setTitle("Manage Wiki Pages");
         setSize(700, 500);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -60,7 +64,8 @@ public class WikiPageManagerGUI extends JFrame {
 
         // Create new page
         addBtn.addActionListener(e -> {
-            new PageEditorGUI(allPages, null);
+            new PageEditorGUI(allPages, null, storage); // 添加 storage 参数
+            storage.savePages(allPages); // 保存数据
             dispose();
         });
 
@@ -74,7 +79,8 @@ public class WikiPageManagerGUI extends JFrame {
                     .findFirst().orElse(null);
 
             if (selectedPage != null) {
-                new PageEditorGUI(allPages, selectedPage);
+                new PageEditorGUI(allPages, selectedPage, storage); // 添加 storage 参数
+                storage.savePages(allPages); // 保存数据
                 dispose();
             }
         });
@@ -99,6 +105,7 @@ public class WikiPageManagerGUI extends JFrame {
                     allPages.remove(pageToDelete);
                     listModel.removeElement(selectedTitle);
                     contentArea.setText("");
+                    storage.savePages(allPages); // 保存数据
                 }
             }
         });

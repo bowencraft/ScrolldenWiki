@@ -1,13 +1,17 @@
 package gui;
 
 import wiki.WikiPage;
+import storage.DataStorage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
 public class PageEditorGUI extends JFrame {
-    public PageEditorGUI(List<WikiPage> allPages, WikiPage pageToEdit) {
+    private DataStorage storage; // 添加存储字段
+
+    public PageEditorGUI(List<WikiPage> allPages, WikiPage pageToEdit, DataStorage storage) {
+        this.storage = storage; // 初始化存储字段
         setTitle(pageToEdit == null ? "Create New Wiki Page" : "Edit Wiki Page");
         setSize(600, 400);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -61,6 +65,7 @@ public class PageEditorGUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "New page created successfully.");
             }
 
+            storage.savePages(allPages); // 保存数据
             dispose(); // Close the editor
         });
 

@@ -31,8 +31,15 @@ public class PlayerGUI extends JFrame {
         buttonPanel.add(suggestButton);
         add(buttonPanel, BorderLayout.NORTH);
 
-        browseButton.addActionListener(e -> new PageBrowserPlayerGUI(player, allPages));
-        suggestButton.addActionListener(e -> new SuggestionModifierGUI(player));
+        browseButton.addActionListener(e -> {
+            new PageBrowserPlayerGUI(player, allPages, storage); // 添加 storage 参数
+            storage.savePages(allPages); // 保存数据
+        });
+
+        suggestButton.addActionListener(e -> {
+            new SuggestionModifierGUI(player, storage); // 添加 storage 参数
+            storage.savePages(allPages); // 保存数据
+        });
 
         setLocationRelativeTo(null);
         setVisible(true);

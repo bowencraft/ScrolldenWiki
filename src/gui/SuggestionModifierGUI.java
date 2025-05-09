@@ -3,11 +3,15 @@ package gui;
 import user.Player;
 import suggestion.Suggestion;
 import suggestion.SuggestionManager;
+import storage.DataStorage;
 
 import javax.swing.*;
 
 public class SuggestionModifierGUI extends JFrame {
-    public SuggestionModifierGUI (Player player) {
+    private DataStorage storage; // 添加存储字段
+
+    public SuggestionModifierGUI(Player player, DataStorage storage) {
+        this.storage = storage; // 初始化存储字段
         setTitle("Submit Suggestion");
         setSize(400, 200);
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -22,6 +26,7 @@ public class SuggestionModifierGUI extends JFrame {
             if (!content.isEmpty()) {
                 Suggestion s = new Suggestion(player.getUsername(), content, null);
                 SuggestionManager.getInstance().addSuggestion(s);
+                storage.savePages(null); // 保存数据（假设需要保存）
                 JOptionPane.showMessageDialog(this, "Suggestion submitted.");
                 dispose();
             }
