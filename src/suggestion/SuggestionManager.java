@@ -16,6 +16,13 @@ public class SuggestionManager {
         return instance;
     }
 
+    // Initialize suggestions from storage
+    public void initializeSuggestions(List<Suggestion> loadedSuggestions) {
+        if (loadedSuggestions != null) {
+            suggestions.addAll(loadedSuggestions);
+        }
+    }
+
     // Add a suggestion to the global list
     public void addSuggestion(Suggestion s) {
         suggestions.add(s);

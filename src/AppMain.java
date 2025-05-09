@@ -10,6 +10,9 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import suggestion.Suggestion;
+import suggestion.SuggestionManager;
+
 public class AppMain {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -18,6 +21,7 @@ public class AppMain {
 
             // Step 2: 加载已有页面数据
             List<WikiPage> allPages = storage.loadPages();
+            List<Suggestion> allSuggestions = storage.loadSuggestions(); // 加载建议
             if (allPages == null || allPages.isEmpty()) {
                 System.out.println("No pages found. Creating default data...");
 
@@ -28,6 +32,9 @@ public class AppMain {
                 allPages = new ArrayList<>();
                 allPages.add(page1);
             }
+
+            // 初始化 SuggestionManager
+            SuggestionManager.getInstance().initializeSuggestions(allSuggestions);
 
             // Step 3: 创建用户和观察者
             Admin admin = new Admin("admin1");

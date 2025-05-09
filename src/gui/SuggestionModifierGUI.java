@@ -26,7 +26,7 @@ public class SuggestionModifierGUI extends JFrame {
             if (!content.isEmpty()) {
                 Suggestion s = new Suggestion(player.getUsername(), content, null);
                 SuggestionManager.getInstance().addSuggestion(s);
-                storage.savePages(null); // 保存数据（假设需要保存）
+                storage.saveSuggestions(SuggestionManager.getInstance().getAllSuggestions()); // 保存建议
                 JOptionPane.showMessageDialog(this, "Suggestion submitted.");
                 dispose();
             }

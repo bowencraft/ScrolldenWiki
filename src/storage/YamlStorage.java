@@ -1,12 +1,14 @@
 package storage;
 
 import wiki.WikiPage;
+import suggestion.Suggestion;
 
 import java.io.*;
 import java.util.*;
 
 public class YamlStorage implements DataStorage {
     private static final String FILE_PATH = System.getProperty("user.dir") + "/data/wiki_pages.yml";
+    private static final String SUGGESTIONS_FILE_PATH = System.getProperty("user.dir") + "/data/suggestions.yml";
 
     @Override
     public void savePages(List<WikiPage> pages) {
@@ -75,5 +77,55 @@ public class YamlStorage implements DataStorage {
             e.printStackTrace();
         }
         return pages;
+    }
+
+    @Override
+    public List<Suggestion> loadSuggestions() {
+        File file = new File(SUGGESTIONS_FILE_PATH);
+        List<Suggestion> suggestions = new ArrayList<>();
+        if (!file.exists()) {
+            return suggestions;
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            Suggestion suggestion = null;
+            String sender = null, content = null;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("- sender: ")) {
+                    sender = line.substring(10);
+                } else if (line.startsWith("  content: ")) {
+                    content = line.substring(11);
+                } else if (line.equals("---")) {
+                    if (sender != null && content != null) {
+                        suggestions.add(new Suggestion(sender, content, null));
+                    }
+                    sender = null;
+                    content = null;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return suggestions;
+    }
+
+    @Override
+    public void saveSuggestions(List<Suggestion> suggestions) {
+        File file = new File(SUGGESTIONS_FILE_PATH);
+        try {
+            if (!file.getParentFile().exists() && !file.getParentFile().mkdirs()) {
+                System.err.println("Failed to create directory: " + file.getParentFile().getAbsolutePath());
+                return;
+            }
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                for (Suggestion suggestion : suggestions) {
+                    writer.write("- sender: " + suggestion.getSenderUsername() + "\n");
+                    writer.write("  content: " + suggestion.getContent() + "\n");
+                    writer.write("---\n");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
