@@ -25,7 +25,6 @@ public class WikiPage implements WikiComponent {
         }
     }
 
-
     public WikiPage(String title, String content) {
         this.title = title;
         this.content = content;
@@ -58,6 +57,11 @@ public class WikiPage implements WikiComponent {
     public void addReview(Review r) {
         reviews.add(r);
         notifyObservers();
+    }
+
+    // ✅ Expose the list of reviews
+    public List<Review> getReviews() {
+        return reviews;
     }
 
     public int getViewCount() {
@@ -96,5 +100,7 @@ public class WikiPage implements WikiComponent {
         this.content = content;
     }
 
-    
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

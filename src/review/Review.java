@@ -1,6 +1,7 @@
 package review;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Review {
     private String author;
@@ -19,5 +20,20 @@ public class Review {
 
     public String getContent() {
         return content;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    // Optional: formatted time string
+    public String getFormattedTimestamp() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return timestamp.format(formatter);
+    }
+
+    @Override
+    public String toString() {
+        return "[" + getFormattedTimestamp() + "] " + author + ": " + content;
     }
 }
