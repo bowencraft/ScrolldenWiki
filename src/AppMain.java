@@ -16,7 +16,7 @@ public class AppMain {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             
-            DataStorage storage = StorageFactory.getStorage();
+            DataStorage storage = new YamlStorage(); // 直接使用 YamlStorage
 
             
             List<WikiPage> allPages = storage.loadPages();
