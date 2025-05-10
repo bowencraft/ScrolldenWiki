@@ -1,0 +1,57 @@
+@startuml
+actor Admin
+
+participant AppMain
+participant HomePageGUI
+participant AdminGUI
+participant WikiPageManagerGUI
+participant PageEditorGUI
+participant PageBrowserGUI
+participant SuggestionViewerGUI
+participant AnalyticsViewerGUI
+participant DataStorage
+participant WikiPage
+participant SuggestionManager
+
+== Admin Entry ==
+Admin -> HomePageGUI : select "Admin"
+HomePageGUI -> AppMain : requestAdminLogin()
+AppMain -> AdminGUI : openAdminDashboard()
+
+== Browse Pages ==
+Admin -> AdminGUI : click "Browse Pages"
+AdminGUI -> PageBrowserGUI : open()
+PageBrowserGUI -> DataStorage : loadAllWikiPages()
+PageBrowserGUI -> WikiPage : getContent()
+
+== Manage Wiki Pages ==
+Admin -> AdminGUI : click "Manage Pages"
+AdminGUI -> WikiPageManagerGUI : open()
+WikiPageManagerGUI -> DataStorage : loadAllWikiPages()
+
+Admin -> WikiPageManagerGUI : click "Edit Page"
+WikiPageManagerGUI -> PageEditorGUI : open(selectedPage)
+PageEditorGUI -> WikiPage : setTitle(), setContent()
+PageEditorGUI -> DataStorage : savePage(WikiPage)
+
+Admin -> WikiPageManagerGUI : click "Create Page"
+WikiPageManagerGUI -> PageEditorGUI : open(null)
+PageEditorGUI -> WikiPage : new WikiPage()
+PageEditorGUI -> DataStorage : savePage(WikiPage)
+
+Admin -> WikiPageManagerGUI : click "Delete Page"
+WikiPageManagerGUI -> DataStorage : deletePage(WikiPage)
+
+== View Suggestions ==
+Admin -> AdminGUI : click "View Suggestions"
+AdminGUI -> SuggestionViewerGUI : open()
+SuggestionViewerGUI -> SuggestionManager : getAllSuggestions()
+SuggestionManager -> DataStorage : loadSuggestions()
+
+== Review Analytics ==
+Admin -> AdminGUI : click "Review Analytics"
+AdminGUI -> AnalyticsViewerGUI : open()
+AnalyticsViewerGUI -> WikiPage : getViewCount()
+AnalyticsViewerGUI -> WikiPage : getLikeCount()
+AnalyticsViewerGUI -> WikiPage : getDislikeCount()
+@enduml

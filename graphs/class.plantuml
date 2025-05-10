@@ -1,0 +1,202 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Admin {
+  private String username
+  public Admin(String username)
+  public void viewSuggestions()
+  public void createPage(WikiPage page, Category category)
+  public void deletePage(WikiPage page, Category category)
+  public void browseWiki(WikiPage page)
+  public List<Suggestion> getSuggestions()
+}
+
+class AdminGUI {
+  private Admin admin
+  private List<WikiPage> allPages
+  private DataStorage storage
+  public AdminGUI(Admin admin, List<WikiPage> allPages, DataStorage storage)
+}
+
+
+class AppMain {
+  public static void main(String[] args)
+}
+
+interface DataStorage {
+  public List<WikiPage> loadPages()
+  public void savePages(List<WikiPage> pages)
+}
+
+class HomePageGUI {
+  public HomePageGUI(List<WikiPage> allPages, Admin admin, Player player, DataStorage storage)
+}
+
+class PageBrowserGUI {
+  public PageBrowserGUI(List<WikiPage> pages)
+}
+
+class PageBrowserPlayerGUI {
+  public PageBrowserPlayerGUI(Player player, List<WikiPage> allPages)
+}
+
+class PageEditorGUI {
+  public PageEditorGUI(List<WikiPage> allPages, WikiPage selectedPage)
+}
+
+class Player {
+  private String username
+  public Player(String username)
+  public void postSuggestion(WikiPage page, String suggestion)
+  public void browseWiki(WikiPage page)
+  public String getUsername()
+}
+
+class PlayerGUI {
+  private Player player
+  private List<WikiPage> allPages
+  private DataStorage storage
+  public PlayerGUI(Player player, List<WikiPage> allPages, DataStorage storage)
+}
+
+class Review {
+  private String author
+  private String content
+  private LocalDateTime timestamp
+  public Review(String author, String content)
+  public String getAuthor()
+  public String getContent()
+  public LocalDateTime getTimestamp()
+  public String getFormattedTimestamp()
+  public String toString()
+}
+
+class StorageFactory {
+  public static DataStorage getStorage()
+}
+
+class Suggestion {
+  private String authorId
+  private String content
+  private WikiPage relatedPage
+  public Suggestion(String authorId, String content, WikiPage relatedPage)
+  public String getSenderUsername()
+  public String getContent()
+  public WikiPage getRelatedPage()
+
+}
+
+class SuggestionManager {
+  private static SuggestionManager instance
+  private List<Suggestion> suggestions
+  public static SuggestionManager getInstance()
+  public void addSuggestion(Suggestion s)
+  public void printAllSuggestions()
+  public List<Suggestion> getSuggestionsByPage(WikiPage page)
+  public List<Suggestion> getAllSuggestions()
+}
+
+class SuggestionModifierGUI {
+  private DataStorage storage
+  public SuggestionModifierGUI(Player player, DataStorage storage)
+}
+
+class SuggestionViewerGUI {
+  public SuggestionViewerGUI(List<Suggestion> suggestions)
+}
+
+class User {
+  private String username
+  public User(String username)
+  public String getUsername()
+  public void browseWiki(WikiPage page)
+}
+
+interface WikiComponent {
+  public void display()
+}
+
+class WikiPage {
+  private String title
+  private String content
+  private int likes
+  private int dislikes
+  private int views
+  private List<Review> reviews
+  public WikiPage(String title, String content)
+  public void display()
+  public void like()
+  public void view()
+  public void dislike()
+  public void addReview(Review r)
+  public int getViewCount()
+  public int getLikeCount()
+  public int getDislikeCount()
+  public String getTitle()
+  public String getContent()
+  public void setViews(int views)
+  public void setLikes(int likes)
+  public void setDislikes(int dislikes)
+  public void setContent(String content)
+  public void setTitle(String title)
+  public List<Review> getReviews()
+}
+
+class WikiPageManagerGUI {
+  public WikiPageManagerGUI(Admin admin, List<WikiPage> allPages, DataStorage storage)
+}
+
+class YamlStorage {
+  public List<WikiPage> loadPages()
+  public void savePages(List<WikiPage> pages)
+}
+
+class AnalyticsViewerGUI {
+  public AnalyticsViewerGUI(List<WikiPage> allPages)
+}
+
+' === Inheritance and Interface Implementation ===
+Admin --|> User
+Player --|> User
+WikiPage ..|> WikiComponent
+YamlStorage ..|> DataStorage
+
+' === Associations (Explicit + Inferred) ===
+WikiPage --> Review
+WikiPage --> Suggestion
+AdminGUI --> PageEditorGUI
+AdminGUI --> SuggestionViewerGUI
+AdminGUI --> PageBrowserGUI
+AdminGUI --> WikiPageManagerGUI
+AdminGUI --> AnalyticsViewerGUI
+PlayerGUI --> PageBrowserPlayerGUI
+PlayerGUI --> SuggestionModifierGUI
+HomePageGUI --> AdminGUI
+HomePageGUI --> PlayerGUI
+SuggestionManager --> Suggestion
+SuggestionManager --> WikiPage
+Player --> WikiPage
+Player --> Suggestion
+Admin --> WikiPage
+Admin --> SuggestionManager
+WikiPageManagerGUI --> Admin
+WikiPageManagerGUI --> DataStorage
+WikiPageManagerGUI --> WikiPage
+SuggestionModifierGUI --> DataStorage
+SuggestionModifierGUI --> Player
+PageBrowserPlayerGUI --> Player
+PageBrowserPlayerGUI --> WikiPage
+PageEditorGUI --> WikiPage
+AppMain --> Admin
+AppMain --> Player
+AppMain --> WikiPage
+AppMain --> StorageFactory
+AdminGUI --> Admin
+PlayerGUI --> Player
+YamlStorage --> WikiPage
+AnalyticsViewerGUI --> WikiPage
+StorageFactory --> YamlStorage
+
+
+
+@enduml

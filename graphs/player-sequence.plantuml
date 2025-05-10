@@ -1,0 +1,51 @@
+@startuml
+actor Player
+
+participant AppMain
+participant HomePageGUI
+participant PlayerGUI
+participant PageBrowserPlayerGUI
+participant SuggestionModifierGUI
+participant WikiPage
+participant Review
+participant Suggestion
+participant SuggestionManager
+participant DataStorage
+
+== Launch ==
+Player -> HomePageGUI : select "Player"
+HomePageGUI -> AppMain : requestPlayerLogin()
+AppMain -> PlayerGUI : openPlayerDashboard()
+
+== Browse Pages ==
+Player -> PlayerGUI : click "Browse Pages"
+PlayerGUI -> PageBrowserPlayerGUI : displayGUI()
+PageBrowserPlayerGUI -> WikiPage : view()
+WikiPage -> WikiPage : incrementViews()
+WikiPage --> PageBrowserPlayerGUI : updated view count
+PageBrowserPlayerGUI -> DataStorage : savePages(allPages)
+
+== Like / Dislike ==
+Player -> PageBrowserPlayerGUI : click like/dislike
+PageBrowserPlayerGUI -> WikiPage : like()/dislike()
+WikiPage --> PageBrowserPlayerGUI : updated like/dislike
+PageBrowserPlayerGUI -> DataStorage : savePages(allPages)
+
+== Create Review ==
+Player -> PageBrowserPlayerGUI : write review
+PageBrowserPlayerGUI -> Review : new Review(player, content)
+PageBrowserPlayerGUI -> WikiPage : addReview()
+PageBrowserPlayerGUI -> DataStorage : savePages(allPages)
+
+== Delete Review ==
+Player -> PageBrowserPlayerGUI : delete own review
+PageBrowserPlayerGUI -> WikiPage : removeReview(player)
+PageBrowserPlayerGUI -> DataStorage : savePages(allPages)
+
+== Post Suggestion ==
+Player -> PlayerGUI : click "Submit Suggestion"
+PlayerGUI -> SuggestionModifierGUI : displayGUI()
+SuggestionModifierGUI -> Suggestion : new Suggestion(player, content)
+SuggestionModifierGUI -> SuggestionManager : addSuggestion()
+SuggestionModifierGUI -> DataStorage : saveSuggestions()
+@enduml

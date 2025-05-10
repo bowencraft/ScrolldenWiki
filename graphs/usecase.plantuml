@@ -1,0 +1,50 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+actor Admin
+actor Player
+
+rectangle "ScrolldenWiki System" {
+
+  ' === Player Use Cases ===
+  usecase "Browse pages (Player)" as UCP1
+  usecase "Like/Dislike pages" as UCP2
+  usecase "Create reviews" as UCP3
+  usecase "Delete own reviews" as UCP4
+  usecase "Post suggestions to Admin" as UCP5
+
+  ' === Admin Use Cases ===
+  usecase "Browse pages (Admin)" as UCA1
+  usecase "Create wiki pages" as UCA2
+  usecase "Edit wiki pages" as UCA3
+  usecase "Delete wiki pages" as UCA4
+  usecase "Access player suggestions" as UCA5
+  usecase "Review analytics" as UCA6
+
+  ' === Actor Relationships ===
+  Player --> UCP1
+  Player --> UCP2
+  Player --> UCP3
+  Player --> UCP4
+  Player --> UCP5
+
+  Admin --> UCA1
+  Admin --> UCA2
+  Admin --> UCA3
+  Admin --> UCA4
+  Admin --> UCA5
+  Admin --> UCA6
+
+  ' === Includes (requires browsing first) ===
+  UCP2 ..> UCP1 : <<include>>
+  UCP3 ..> UCP1 : <<include>>
+  UCP4 ..> UCP1 : <<include>>
+
+  UCA2 ..> UCA1 : <<include>>
+  UCA3 ..> UCA1 : <<include>>
+  UCA4 ..> UCA1 : <<include>>
+  UCA6 ..> UCA1 : <<include>>
+}
+@enduml
